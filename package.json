@@ -1,0 +1,22 @@
+{
+  "name": "smart.data.service",
+  "version": "1.0.0",
+  "description": "smart.data.service",
+  "main": "index.ts",
+  "scripts": {
+    "test": "parcel build src/index.ts --out-dir dist",
+    "start": "parcel serve index.html -p 1256 --open",
+    "build": "cross-env NODE_ENV=production parcel build src/index.ts --out-dir build --no-source-maps"
+  },
+  "keywords": [],
+  "author": "meng",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "parcel-bundler": "^1.7.0",
+    "typescript": "^2.8.1"
+  },
+  "dependencies": {
+    "es6-promise": "^4.2.4"
+  }
+}

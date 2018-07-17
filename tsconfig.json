@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    // "module": "commonjs",
+    // "noImplicitAny": true,
+    // "removeComments": true,
+    // "preserveConstEnums": true,
+    // "outFile": "build/app.js",
+    // "sourceMap": true,
+    "allowJs": false,
+    "experimentalDecorators": true,
+    "target": "es5",
+    "lib": ["dom", "es2015.promise", "es5"]
+  },
+  "parcelTsPluginOptions": {
+    // If true type-checking is disabled
+    "transpileOnly": false
+  }
+  // "files": ["./sdk"]
+}
