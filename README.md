@@ -12,7 +12,7 @@ Parcel with 1.9.7
 
 ## Build
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `npm run build` to build the project. The build artifacts will be stored in the `build/` directory.
 
 ## Running unit tests
 
