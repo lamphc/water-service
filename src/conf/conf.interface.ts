@@ -22,4 +22,6 @@ export interface Schema {
 export interface SchemaApi {
   suffix: any;
   method: string;
+  url?: string;
+  params?: object;
 }

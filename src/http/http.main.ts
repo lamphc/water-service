@@ -1,5 +1,5 @@
 import { AjaxBase } from "./ajax.base.abstract";
-import { HttpResponse } from "./ajax.interface";
+import { HttpResponse, HttpRequest } from "./ajax.interface";
 import ConfManager from "../conf/conf.manager";
 
 export default class HttpMain extends AjaxBase {
@@ -17,7 +17,7 @@ export default class HttpMain extends AjaxBase {
     return this.init({ method: this.method[1], url, params, contentType });
   }
 
-  adapter = (config: any) => {
+  adapter = (config: HttpRequest) => {
     return this.init(config).then(res => res, err => Promise.reject(err));
   };
 
@@ -29,7 +29,7 @@ export default class HttpMain extends AjaxBase {
    * @param contentType
    */
   init(
-    config: any
+    config: HttpRequest
   ): // method: string,
   // url: string,
   // params: any,
@@ -90,7 +90,7 @@ export default class HttpMain extends AjaxBase {
       //end
 
       //handler ajax event
-      this.handlerEvent(xhr, resolve, reject);
+      this.handlerEvent(xhr, resolve, reject, config);
 
       //ajax send
       xhr.send(method === this.method[0] ? null : params);
@@ -103,7 +103,7 @@ export default class HttpMain extends AjaxBase {
    * @param resolve
    * @param reject
    */
-  handlerEvent(xhr, resolve, reject) {
+  handlerEvent(xhr, resolve, reject, config: HttpRequest) {
     let response: HttpResponse;
     xhr.onload = function() {
       if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
@@ -111,7 +111,8 @@ export default class HttpMain extends AjaxBase {
           let res = JSON.parse(xhr.response);
           response = {
             status: xhr.status,
-            data: res
+            data: res,
+            config
           };
           resolve(response);
         } catch (e) {

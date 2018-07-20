@@ -6,4 +6,5 @@ export default class Http extends HttpPipeline {
   constructor() {
     super();
   }
+  create: Function;
 }
