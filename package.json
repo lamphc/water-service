@@ -1,12 +1,13 @@
 {
-  "name": "smart.data.service",
+  "name": "smart.water.service",
   "version": "1.0.0",
-  "description": "smart.data.service",
+  "description": "smart.water.service",
   "main": "index.ts",
   "scripts": {
     "test": "parcel build src/index.ts --out-dir dist",
     "start": "parcel serve index.html -p 1256 --open",
-    "build": "cross-env NODE_ENV=production parcel build src/index.ts --out-dir build --no-source-maps"
+    "build": "cross-env NODE_ENV=production parcel build src/index.ts --detailed-report --out-dir build --out-file index.js --no-source-maps",
+    "build-node": "cross-env NODE_ENV=production parcel build src/index.ts --target node --detailed-report --out-dir build --out-file node.js"
   },
   "keywords": [],
   "author": "meng",
@@ -17,6 +18,7 @@
     "typescript": "^2.8.1"
   },
   "dependencies": {
-    "es6-promise": "^4.2.4"
+    "es6-promise": "^4.2.4",
+    "water-service": "file:build"
   }
 }

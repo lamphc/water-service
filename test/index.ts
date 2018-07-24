@@ -1,10 +1,13 @@
-import { DataService } from "./core";
-export default DataService;
+import waterService, { WaterService } from "water-service";
+// import waterService, { WaterService } from "../src";
 
-//test
-(function(w, undefined) {
-  w["DataService"] = DataService;
-
+let ot = WaterService.create();
+console.log("====================================");
+console.log(WaterService);
+console.log("====================================");
+run(waterService);
+//end
+function run(waterService) {
   const database = {
     baseUrl: "http://5990367be1e4470011c46fa8.mockapi.io",
     database: {
@@ -32,22 +35,22 @@ export default DataService;
   };
 
   //注册数据接口配置
-  DataService.http.confManager.setConfDataBase(database);
+  waterService.confManager.setConfDataBase(database);
   //设置请求超时时间
-  DataService.http.timeout = 7000;
+  waterService.timeout = 7000;
 
   //注册数据流中间件
-  DataService.http.interceptors.request.use(conf => {
+  waterService.interceptors.request.use(conf => {
     conf.headers = { access_token: Math.random() * 10000 };
     return conf;
   });
-  DataService.http.interceptors.response.use(res => {
+  waterService.interceptors.response.use(res => {
     res.over = 1000;
     return res;
   });
 
   //注入filters
-  DataService.http.plant.plugin([
+  waterService.plant.plugin([
     function sort(res) {
       console.log("res-filters:", res);
       let args = res.config.filters["sort"];
@@ -57,7 +60,7 @@ export default DataService;
   ]);
 
   //data run
-  DataService.http
+  waterService
     .request(
       { schema: "schema1", api: "api1", params: { name: "test" } },
       {
@@ -74,6 +77,7 @@ export default DataService;
     method: "get",
     url: "http://5ab211b762a6ae001408c1d0.mockapi.io/ng/heroes"
   };
-  DataService.http.get(conf.url).then(res => console.log("get:", res));
-})(window);
-//end
+  waterService.get(conf.url).then(res => console.log("get:", res));
+}
+
+export default run;

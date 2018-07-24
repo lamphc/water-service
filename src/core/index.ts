@@ -1,6 +1,7 @@
-import dataService from "./core.main";
+import waterService, { createInstance } from "./core.main";
 
-export namespace DataService {
-  export class Index {}
-  export const http = dataService;
+export namespace WaterService {
+  export const create = createInstance;
 }
+
+export default waterService;

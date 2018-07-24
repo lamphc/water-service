@@ -6,12 +6,10 @@ declare let process: {
   };
 };
 
-function createInstance() {
+export function createInstance() {
   return new Http();
 }
 
-const dataService = createInstance();
+const waterService = createInstance();
 
-dataService.create = createInstance;
-
-export default dataService;
+export default waterService;

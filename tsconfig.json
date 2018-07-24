@@ -1,19 +1,24 @@
 {
   "compilerOptions": {
-    // "module": "commonjs",
-    // "noImplicitAny": true,
-    // "removeComments": true,
-    // "preserveConstEnums": true,
-    // "outFile": "build/app.js",
-    // "sourceMap": true,
-    "allowJs": false,
-    "experimentalDecorators": true,
     "target": "es5",
-    "lib": ["dom", "es2015.promise", "es5"]
+    "lib": ["dom", "es2015.promise", "es5"],
+    "experimentalDecorators": true,
+    "noImplicitAny": false, //严格类型定义
+    // "sourceMap": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false, //未引用报错开关
+    "noImplicitThis": false, //this 必须有引用地址
+    "diagnostics": true, //诊断
+    "listFiles": true,
+    "pretty": true,
+    // "moduleResolution": "node",
+    "noEmitOnError": true,
+    "strictNullChecks": false,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": false, //返回不能空
+    "declaration": true, //是否生成类型文件
+    "strict": false,
+    "outDir": "./build"
   },
-  "parcelTsPluginOptions": {
-    // If true type-checking is disabled
-    "transpileOnly": false
-  }
-  // "files": ["./sdk"]
+  "include": ["src/**/*.ts"]
 }
