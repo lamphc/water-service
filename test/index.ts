@@ -1,12 +1,14 @@
 import waterService, { WaterService } from "water-service";
 // import waterService, { WaterService } from "../src";
 
+//多实例的创建
 let ot = WaterService.create();
 console.log("====================================");
 console.log(WaterService);
 console.log("====================================");
+
+//单例调用
 run(waterService);
-//end
 function run(waterService) {
   const database = {
     baseUrl: "http://5990367be1e4470011c46fa8.mockapi.io",
@@ -34,12 +36,13 @@ function run(waterService) {
     }
   };
 
-  //注册数据接口配置
-  waterService.confManager.setConfDataBase(database);
-  //设置请求超时时间
-  waterService.timeout = 7000;
+  //注册数据库接口配置
+  waterService.provider(database);
 
-  //注册数据流中间件
+  //设置请求超时时间
+  waterService.timeout = 6000;
+
+  //注册全局数据流中间件
   waterService.interceptors.request.use(conf => {
     conf.headers = { access_token: Math.random() * 10000 };
     return conf;
@@ -49,7 +52,7 @@ function run(waterService) {
     return res;
   });
 
-  //注入filters
+  //注入数据加工filters
   waterService.plant.plugin([
     function sort(res) {
       console.log("res-filters:", res);
@@ -59,7 +62,7 @@ function run(waterService) {
     }
   ]);
 
-  //data run
+  //数据请求
   waterService
     .request(
       { schema: "schema1", api: "api1", params: { name: "test" } },
@@ -73,6 +76,8 @@ function run(waterService) {
       },
       err => console.log("final-err:", err)
     );
+
+  //独立请求调用
   let conf = {
     method: "get",
     url: "http://5ab211b762a6ae001408c1d0.mockapi.io/ng/heroes"

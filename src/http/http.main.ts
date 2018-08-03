@@ -1,6 +1,7 @@
 import { AjaxBase } from "./ajax.base.abstract";
 import { HttpResponse, HttpRequest } from "./ajax.interface";
 import ConfManager from "../conf/conf.manager";
+import ConfDataBase from "../conf/conf.interface";
 
 export default class HttpMain extends AjaxBase {
   constructor() {
@@ -8,6 +9,10 @@ export default class HttpMain extends AjaxBase {
   }
 
   public confManager: ConfManager = new ConfManager();
+
+  public provider(database: ConfDataBase) {
+    this.confManager.Database = database;
+  }
 
   get(url: string, params?: object): Promise<any> {
     return this.init({ method: this.method[0], url, params });

@@ -1,6 +1,6 @@
 export abstract class AjaxBase {
   protected method: Array<string> = ["get", "post"];
-  timeout: number = 6000;
+  timeout: number = 5000;
 
   /**
    * HTTP method fn

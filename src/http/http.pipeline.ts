@@ -15,7 +15,7 @@ export default class HttpPipeline extends HttpMain {
   public plant: Plant = new Plant();
 
   request(type: requestType, filters?: responseFilters): Promise<any> {
-    let config = this.confManager.getConfDataBaseApi(type);
+    let config = this.confManager.getDataBaseApi(type);
     return this.handlerChain(config, filters);
   }
 
