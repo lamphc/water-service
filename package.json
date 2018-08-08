@@ -7,18 +7,23 @@
     "test": "parcel build src/index.ts --out-dir dist",
     "start": "parcel serve index.html -p 1256 --open",
     "build": "cross-env NODE_ENV=production parcel build src/index.ts --detailed-report --out-dir build --out-file index.js --no-source-maps",
-    "build-node": "cross-env NODE_ENV=production parcel build src/index.ts --target node --detailed-report --out-dir build --out-file node.js"
+    "build:node": "cross-env NODE_ENV=production parcel build src/index.ts --target node --detailed-report --out-dir build --out-file node.js",
+    "build:gzip": "cross-env NODE_ENV=production parcel build src/index.ts --detailed-report --out-dir build/tar/ws --out-file index.js --no-source-maps && gulp ngzip"
   },
   "keywords": [],
   "author": "meng",
   "license": "ISC",
   "devDependencies": {
     "cross-env": "^5.2.0",
+    "gulp": "^3.9.1",
+    "gulp-gzip": "^1.4.2",
+    "gulp-tar": "^2.1.0",
     "parcel-bundler": "^1.7.0",
     "typescript": "^2.8.1"
   },
   "dependencies": {
     "es6-promise": "^4.2.4",
-    "water-service": "file:build"
+    "water-service": "file:build",
+    "water-test": "http://172.23.7.135:8181/water.service.tar.gz"
   }
 }

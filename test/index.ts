@@ -1,4 +1,5 @@
 import waterService, { WaterService } from "water-service";
+// import waterService, { WaterService } from "water-test";
 // import waterService, { WaterService } from "../src";
 
 //多实例的创建
@@ -76,6 +77,13 @@ function run(waterService) {
       },
       err => console.log("final-err:", err)
     );
+
+  waterService.request({ schema: "schema1", api: "api1" }).then(
+    res => {
+      console.log("final2:", res);
+    },
+    err => console.log("final-err:", err)
+  );
 
   //独立请求调用
   let conf = {
