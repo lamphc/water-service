@@ -4,5 +4,7 @@
   "homepage": "",
   "main": "./index.js",
   "typings": "./index.d.ts",
-  "dependencies": {}
+  "dependencies": {
+    "es6-promise": "^4.2.4"
+  }
 }

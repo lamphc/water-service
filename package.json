@@ -8,7 +8,7 @@
     "start": "parcel serve index.html -p 1256 --open",
     "build": "cross-env NODE_ENV=production parcel build src/index.ts --detailed-report --out-dir build --out-file index.js --no-source-maps",
     "build:node": "cross-env NODE_ENV=production parcel build src/index.ts --target node --detailed-report --out-dir build --out-file node.js",
-    "build:gzip": "cross-env NODE_ENV=production parcel build src/index.ts --detailed-report --out-dir build/tar/ws --out-file index.js --no-source-maps && gulp ngzip"
+    "build:gzip": " tsc src/index.ts -d"
   },
   "keywords": [],
   "author": "meng",
@@ -16,11 +16,11 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "gulp": "^3.9.1",
+    "gulp-copy": "^1.1.0",
     "gulp-gzip": "^1.4.2",
     "gulp-tar": "^2.1.0",
     "gulp-typescript": "^5.0.0-alpha.3",
     "parcel-bundler": "^1.7.0",
-    "parcel-plugin-typescript": "^1.0.0",
     "typescript": "^2.8.1"
   },
   "dependencies": {

@@ -3,6 +3,10 @@
 # compiled output
 /dist
 /build/**/*.js
+/build/**/*.ts
+/build/**/*.d.ts
+/src/**/*.js
+/src/**/*.d.ts
 /build/*.gz
 /dist-server
 /tmp

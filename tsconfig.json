@@ -10,7 +10,7 @@
     "noImplicitThis": false, //this 必须有引用地址
     "diagnostics": true, //诊断
     "listFiles": true,
-    "pretty": true,
+    "pretty": false,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
@@ -18,8 +18,7 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": false, //返回不能空
     "declaration": true, //是否生成类型文件
-    "strict": false,
-    "outDir": "./build"
+    "strict": false
   },
   "include": ["src/**/*.ts"]
 }
