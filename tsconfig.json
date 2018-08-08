@@ -4,14 +4,15 @@
     "lib": ["dom", "es2015.promise", "es5"],
     "experimentalDecorators": true,
     "noImplicitAny": false, //严格类型定义
-    // "sourceMap": true,
+    "sourceMap": true,
     "noUnusedParameters": false,
     "noUnusedLocals": false, //未引用报错开关
     "noImplicitThis": false, //this 必须有引用地址
     "diagnostics": true, //诊断
     "listFiles": true,
     "pretty": true,
-    // "moduleResolution": "node",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "noEmitOnError": true,
     "strictNullChecks": false,
     "forceConsistentCasingInFileNames": true,
@@ -19,10 +20,6 @@
     "declaration": true, //是否生成类型文件
     "strict": false,
     "outDir": "./build"
-  },
-  "parcelTsPluginOptions": {
-    // If true type-checking is disabled
-    "transpileOnly": false
   },
   "include": ["src/**/*.ts"]
 }
