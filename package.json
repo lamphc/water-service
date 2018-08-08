@@ -9,7 +9,7 @@
     "build": "cross-env NODE_ENV=production parcel build src/index.ts --detailed-report --out-dir build --out-file index.js --no-source-maps",
     "build:node": "cross-env NODE_ENV=production parcel build src/index.ts --target node --detailed-report --out-dir build --out-file node.js",
     "build:gzip": "tsc src/index.ts -d",
-    "build:gcp": "gulp"
+    "build:gcp": "gulp ncopy && gulp ngzip"
   },
   "keywords": [],
   "author": "meng",
