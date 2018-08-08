@@ -20,5 +20,9 @@
     "strict": false,
     "outDir": "./build"
   },
+  "parcelTsPluginOptions": {
+    // If true type-checking is disabled
+    "transpileOnly": false
+  },
   "include": ["src/**/*.ts"]
 }

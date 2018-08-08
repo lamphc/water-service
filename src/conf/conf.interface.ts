@@ -1,4 +1,3 @@
-import { Schema } from "./conf.interface";
 /**
  * 数据库
  */

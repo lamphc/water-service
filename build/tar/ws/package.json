@@ -3,5 +3,6 @@
   "version": "1.0.0",
   "homepage": "",
   "main": "./index.js",
+  "typings": "./index.d.ts",
   "dependencies": {}
 }
