@@ -7,7 +7,7 @@
  *~ For example, if you were writing a file for "super-greeter", this
  *~ file should be 'super-greeter/index.d.ts'
  */
-
+export default waterService;
 /*~ If this module is a UMD module that exposes a global variable 'myLib' when
  *~ loaded outside a module loader environment, declare that global here.
  *~ Otherwise, delete this declaration.
@@ -41,7 +41,7 @@ export interface SchemaApi {
   params?: object;
 }
 
-export default class waterService {
+declare class waterService {
   public provider(database: ConfDataBase): void;
 
   get(url: string, params?: object): Promise<any>;
@@ -54,7 +54,7 @@ export default class waterService {
 /*~ If there are types, properties, or methods inside dotted names
  *~ of the module, declare them inside a 'namespace'.
  */
-export namespace WaterService {
+declare namespace WaterService {
   /*~ For example, given this definition, someone could write:
      *~   import { subProp } from 'yourModule';
      *~   subProp.foo();
