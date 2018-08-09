@@ -121,7 +121,8 @@ export default class HttpMain extends AjaxBase {
           };
           resolve(response);
         } catch (e) {
-          reject(e);
+          // reject(e);
+          resolve(xhr.response);
         }
       } else {
         response = {
