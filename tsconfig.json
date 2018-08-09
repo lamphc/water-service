@@ -20,5 +20,5 @@
     "declaration": true, //是否生成类型文件
     "strict": false
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/index.ts"]
 }
