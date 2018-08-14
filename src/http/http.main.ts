@@ -45,22 +45,6 @@ export default class HttpMain extends AjaxBase {
       let xhr: XMLHttpRequest = new XMLHttpRequest();
 
       /**
-       * xhr open
-       */
-      xhr.open(method, url, true);
-
-      /**
-       * set common header
-       */
-      if (headers) {
-        for (const key in headers) {
-          if (headers.hasOwnProperty(key)) {
-            xhr.setRequestHeader(key, headers[key]);
-          }
-        }
-      }
-
-      /**
        * get,参数是object
        */
       if (method.toLowerCase() === this.method[0] && params) {
@@ -73,12 +57,27 @@ export default class HttpMain extends AjaxBase {
       }
       //end
 
+      /**
+       * xhr open
+       */
+      xhr.open(method, url, true);
+      /**
+       * set common header
+       */
+      if (headers) {
+        for (const key in headers) {
+          if (headers.hasOwnProperty(key)) {
+            xhr.setRequestHeader(key, headers[key]);
+          }
+        }
+      }
+
       /** post传输,当传FormData类型的数据时，不需要设置Content-Type
        *  默认设置'Content-Type'为'application/x-www-form-urlencoded',对数据进行序列化(form submit)
        *  如果'Content-Type'设置为'application/json'，数据直接传json字符串
        **/
       if (
-        method.toLowerCase() === this.method[1] &&
+        // method.toLowerCase() === this.method[1] &&
         this.isPlainObject(params)
       ) {
         if (contentType === "application/x-www-form-urlencoded") {
@@ -96,9 +95,11 @@ export default class HttpMain extends AjaxBase {
 
       //handler ajax event
       this.handlerEvent(xhr, resolve, reject, config);
-
+      if (params === undefined) {
+        params = null;
+      }
       //ajax send
-      xhr.send(method === this.method[0] ? null : params);
+      xhr.send(params);
     });
   }
 
@@ -110,20 +111,18 @@ export default class HttpMain extends AjaxBase {
    */
   handlerEvent(xhr, resolve, reject, config: HttpRequest) {
     let response: HttpResponse;
-    xhr.onload = function() {
+    xhr.onload = () => {
       if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-        try {
-          let res = JSON.parse(xhr.response);
-          response = {
-            status: xhr.status,
-            data: res,
-            config
-          };
-          resolve(response);
-        } catch (e) {
-          // reject(e);
-          resolve(xhr.response);
-        }
+        let res = xhr.response,
+          headers = this.parseHeaders(xhr.getAllResponseHeaders());
+        if (this.isJNString(res)) res = JSON.parse(res);
+        response = {
+          status: xhr.status,
+          data: res,
+          headers,
+          config
+        };
+        resolve(response);
       } else {
         response = {
           status: xhr.status,
@@ -147,6 +146,8 @@ export default class HttpMain extends AjaxBase {
         msg: "Network Error!"
       };
       reject(response);
+      //clear
+      xhr = null;
     };
     xhr.onabort = function() {
       response = {

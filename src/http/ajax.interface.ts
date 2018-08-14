@@ -5,6 +5,7 @@ export interface HttpResponse {
   status: number;
   data?: object;
   msg?: string;
+  headers?: object;
   [propNames: string]: any;
 }
 
@@ -25,6 +26,7 @@ export interface requestType {
   schema: string;
   api: string;
   params?: object;
+  restful?: string;
   filters?: Array<responseFilter>;
 }
 

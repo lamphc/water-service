@@ -20,7 +20,9 @@ export default class ConfManager {
   getDataBaseApi(type: requestType): SchemaApi {
     if (!this.Database) throw new Error("DataService: No Database Config!");
     let config = this.Database.database[type.schema][type.api];
-    config.url = this.Database.baseUrl + config.suffix;
+    config.url = this.Database.baseUrl + config.prefix.replace(/(\/:.+)/, "");
+    if (type.restful) config.url += type.restful;
+    if (config.suffix) config.url += config.suffix;
     type.params && (config.params = type.params);
     return config;
   }

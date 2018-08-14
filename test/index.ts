@@ -1,6 +1,6 @@
-import waterService, { WaterService } from "water-service";
+// import waterService, { WaterService } from "water-service";
 // import waterService, { WaterService } from "water-test";
-// import waterService, { WaterService } from "../src";
+import waterService, { WaterService } from "../src";
 
 //多实例的创建
 let ot = WaterService.create();
@@ -16,21 +16,29 @@ function run(waterService) {
     database: {
       schema1: {
         api1: {
-          suffix: "/meng/user",
+          prefix: "/meng/user",
           method: "get"
         },
         api2: {
-          suffix: "/meng/user",
-          method: "post"
+          prefix: "/meng/user/:id",
+          method: "get"
+        },
+        api3: {
+          prefix: "/meng/user/:id",
+          method: "delete"
+        },
+        api4: {
+          prefix: "/meng/user/:id",
+          method: "put"
         }
       },
       schema2: {
         api1: {
-          suffix: "/smart",
+          prefix: "/smart",
           method: "get"
         },
         api2: {
-          suffix: "/smart",
+          prefix: "/smart",
           method: "post"
         }
       }
@@ -65,6 +73,19 @@ function run(waterService) {
 
   //数据请求
   waterService
+    .request({
+      schema: "schema1",
+      api: "api4",
+      restful: "/10",
+      params: { name: "put-edit" }
+    })
+    .then(
+      res => {
+        console.log("final2:", res);
+      },
+      err => console.log("final-err:", err)
+    );
+  waterService
     .request(
       { schema: "schema1", api: "api1", params: { name: "test" } },
       {
@@ -77,13 +98,6 @@ function run(waterService) {
       },
       err => console.log("final-err:", err)
     );
-
-  waterService.request({ schema: "schema1", api: "api1" }).then(
-    res => {
-      console.log("final2:", res);
-    },
-    err => console.log("final-err:", err)
-  );
 
   //独立请求调用
   let conf = {

@@ -1,5 +1,5 @@
 export abstract class AjaxBase {
-  protected method: Array<string> = ["get", "post"];
+  protected method: Array<string> = ["get", "post", "put", "delete"];
   timeout: number = 5000;
 
   /**
@@ -22,7 +22,7 @@ export abstract class AjaxBase {
    *
    * @param obj 判断是否为纯对象，比如这种格式 {'name': 'jason'} 是纯对象，函数、数组等则不是
    */
-  isPlainObject(obj) {
+  isPlainObject(obj: object) {
     return Object.prototype.toString.call(obj) === "[object Object]";
   }
 
@@ -31,7 +31,7 @@ export abstract class AjaxBase {
    * @param obj
    * @return
    */
-  serialize(obj) {
+  serialize(obj: object) {
     let query = "",
       name,
       value,
@@ -66,5 +66,76 @@ export abstract class AjaxBase {
     }
 
     return query.length ? query.substr(0, query.length - 1) : query;
+  }
+
+  ignoreDuplicateOf = [
+    "age",
+    "authorization",
+    "content-length",
+    "content-type",
+    "etag",
+    "expires",
+    "from",
+    "host",
+    "if-modified-since",
+    "if-unmodified-since",
+    "last-modified",
+    "location",
+    "max-forwards",
+    "proxy-authorization",
+    "referer",
+    "retry-after",
+    "user-agent"
+  ];
+
+  trim(str) {
+    return str.replace(/^\s*/, "").replace(/\s*$/, "");
+  }
+
+  parseHeaders(headers: string) {
+    var parsed = {};
+    var key;
+    var val;
+    var i;
+
+    if (!headers) {
+      return parsed;
+    }
+    let rheaders = headers.split("\n");
+    rheaders.forEach(line => {
+      i = line.indexOf(":");
+      key = this.trim(line.substr(0, i)).toLowerCase();
+      val = this.trim(line.substr(i + 1));
+
+      if (key) {
+        if (parsed[key] && this.ignoreDuplicateOf.indexOf(key) >= 0) {
+          return;
+        }
+        if (key === "set-cookie") {
+          parsed[key] = (parsed[key] ? parsed[key] : []).concat([val]);
+        } else {
+          parsed[key] = parsed[key] ? parsed[key] + ", " + val : val;
+        }
+      }
+    });
+
+    return parsed;
+  }
+
+  /**
+   *
+   * @param str
+   */
+  isJNString(str: string) {
+    if (typeof str == "string") {
+      try {
+        JSON.parse(str);
+        return true;
+      } catch (e) {
+        // console.log(e);
+        return false;
+      }
+    }
+    return false;
   }
 }

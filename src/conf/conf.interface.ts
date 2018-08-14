@@ -19,7 +19,8 @@ export interface Schema {
  * 数据库实体接口
  */
 export interface SchemaApi {
-  suffix: any;
+  prefix: any; //前缀
+  suffix?: any; //后缀
   method: string;
   url?: string;
   params?: object;
