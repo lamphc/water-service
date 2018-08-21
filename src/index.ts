@@ -1,4 +1,9 @@
-import waterService, { WaterService } from "./core";
+import waterService, {
+  WaterService,
+  requestType,
+  responseFilters,
+  ConfDataBase
+} from "./core";
 
-export { WaterService };
+export { WaterService, requestType, responseFilters, ConfDataBase };
 export default waterService;

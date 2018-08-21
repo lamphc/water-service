@@ -1,12 +1,14 @@
 // import waterService, { WaterService } from "water-service";
 // import waterService, { WaterService } from "water-test";
-import waterService, { WaterService } from "../src";
+import waterService, {
+  WaterService,
+  requestType,
+  responseFilters,
+  ConfDataBase
+} from "../src";
 
 //多实例的创建
 let ot = WaterService.create();
-console.log("====================================");
-console.log(WaterService);
-console.log("====================================");
 
 //单例调用
 run(waterService);
@@ -74,8 +76,7 @@ function run(waterService) {
   //数据请求
   waterService
     .request({
-      schema: "schema1",
-      api: "api4",
+      api: database.database.schema1.api4,
       restful: "/10",
       params: { name: "put-edit" }
     })
@@ -87,7 +88,7 @@ function run(waterService) {
     );
   waterService
     .request(
-      { schema: "schema1", api: "api1", params: { name: "test" } },
+      { api: database.database.schema1.api1, params: { name: "test" } },
       {
         sort: ["sort", -1]
       }

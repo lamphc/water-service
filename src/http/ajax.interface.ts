@@ -1,3 +1,4 @@
+import { SchemaApi } from "./../conf/conf.interface";
 import InterceptorManager from "./interceptor.manager";
 
 export const ary = [];
@@ -23,8 +24,9 @@ export interface Interceptor {
 }
 
 export interface requestType {
-  schema: string;
-  api: string;
+  // schema: string;
+  // api: string;
+  api: SchemaApi;
   params?: object;
   restful?: string;
   filters?: Array<responseFilter>;
