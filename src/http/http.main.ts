@@ -14,12 +14,12 @@ export default class HttpMain extends AjaxBase {
     this.confManager.Database = database;
   }
 
-  get(url: string, params?: object): Promise<any> {
-    return this.init({ method: this.method[0], url, params });
+  get(url: string, params?: object, headers?: object): Promise<any> {
+    return this.init({ method: this.method[0], url, params, headers });
   }
 
-  post(url: string, params: object, contentType?: string): Promise<any> {
-    return this.init({ method: this.method[1], url, params, contentType });
+  post(url: string, params: object, headers?: object, contentType?: string): Promise<any> {
+    return this.init({ method: this.method[1], url, params, headers, contentType });
   }
 
   adapter = (config: HttpRequest) => {
@@ -36,10 +36,10 @@ export default class HttpMain extends AjaxBase {
   init(
     config: HttpRequest
   ): // method: string,
-  // url: string,
-  // params: any,
-  // contentType?: string
-  Promise<any> {
+    // url: string,
+    // params: any,
+    // contentType?: string
+    Promise<any> {
     let { method, url, params, contentType, headers } = config;
     return new Promise((resolve, reject) => {
       let xhr: XMLHttpRequest = new XMLHttpRequest();
@@ -133,14 +133,14 @@ export default class HttpMain extends AjaxBase {
     };
 
     xhr.timeout = this.timeout;
-    xhr.ontimeout = function() {
+    xhr.ontimeout = function () {
       response = {
         status: xhr.status,
         msg: "Link timeout!"
       };
       reject(response);
     };
-    xhr.onerror = function() {
+    xhr.onerror = function () {
       response = {
         status: xhr.status,
         msg: "Network Error!"
@@ -149,7 +149,7 @@ export default class HttpMain extends AjaxBase {
       //clear
       xhr = null;
     };
-    xhr.onabort = function() {
+    xhr.onabort = function () {
       response = {
         status: xhr.status,
         msg: "Request cancellation!"

@@ -8,11 +8,12 @@ export abstract class AjaxBase {
    * @param params
    * @param contentType
    */
-  abstract get(url: string, params: object): Promise<any>;
+  abstract get(url: string, params: object, headers: object): Promise<any>;
 
   abstract post(
     url: string,
     params: object,
+    headers: object,
     contentType?: string
   ): Promise<any>;
 

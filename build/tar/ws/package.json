@@ -1,8 +1,8 @@
 {
   "name": "water-service",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "MIT",
-  "homepage": "https://confluence.tendcloud.com/display/VD/water-service",
+  "homepage": "https://github.com/water-design/fe-microservice-base/blob/master/WATER.md",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "dependencies": {

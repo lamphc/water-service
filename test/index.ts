@@ -105,7 +105,8 @@ function run(waterService) {
     method: "get",
     url: "http://5ab211b762a6ae001408c1d0.mockapi.io/ng/heroes"
   };
-  waterService.get(conf.url).then(res => console.log("get:", res));
+  waterService.get(conf.url, null, { access_token: '232' }).then(res => console.log("get:", res));
+  // waterService.post(conf.url, { name: 'meng100' }, { access_token: '1232' })
 }
 
 export default run;
