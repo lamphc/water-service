@@ -6,6 +6,7 @@
   "scripts": {
     "test": "parcel build src/index.ts --out-dir dist",
     "start": "parcel serve index.html -p 1256 --open",
+    "lint": "tslint -p tsconfig.json",
     "build": "cross-env NODE_ENV=production parcel build src/index.ts --detailed-report --out-dir build --out-file index.js --no-source-maps",
     "build:node": "cross-env NODE_ENV=production parcel build src/index.ts --target node --detailed-report --out-dir build --out-file node.js",
     "build:ngzip": "tsc -p tsconfig.json --outDir build/tar/ws && gulp ngzip",
@@ -20,6 +21,7 @@
     "gulp-gzip": "^1.4.2",
     "gulp-tar": "^2.1.0",
     "parcel-bundler": "^1.7.0",
+    "tslint": "^5.12.1",
     "typescript": "^2.8.1"
   },
   "dependencies": {
