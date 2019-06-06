@@ -6,23 +6,14 @@ This project was generated with typescript 2.8.1
 
 Run with live-server base Parcel
 
-## Code scaffolding
-
-Parcel with 1.9.7
-
-## Build
-
-Run `npm run build` to build the project. The build artifacts will be stored in the `build/` directory.
-
-## Running unit tests
-
-Run `npm run test` to execute the unit tests.
-
+# Water-Service
 
 # 前言
+
 提供统一的数据库接口配置管理.独立的管道和中间件机制,从请求开始、进行、结束各个环节的流式管道处理过程.同时支持数据加工中间件的自注入,达到理想的所要即所得的状态.
 
 # 实例接口
+
 默认实例:waterService
 
 | 属性           | 说明               | 类型       | 默认值 |
@@ -34,6 +25,7 @@ Run `npm run test` to execute the unit tests.
 | **`request`**  | 数据请求           | `function` |        |
 
 # 接口功能
+
 ```js
 //数据库接口配置
 export default interface ConfDataBase {
@@ -62,100 +54,187 @@ export interface SchemaApi {
 
 
 ```
+
 # 安装
 
 ```npm
-npm i water-service -S
+npm i water-service
 ```
+
 # 使用示例
 
-```js
-import waterService, { WaterService } from "water-service";
+- 在 angular 下使用示例
 
-//多实例的创建
-let ot = WaterService.create();
-...
+1. 创建全局 service,引入 water-service,示例:
 
-//单例调用
-run(waterService);
-function run(waterService) {
-  const database = {
-    baseUrl: "http://5990367be1e4470011c46fa8.mockapi.io",
-    database: {
-      schema1: {
-        api1: {
-          suffix: "/meng/user",
-          method: "get"
-        },
-        api2: {
-          suffix: "/meng/user",
-          method: "post"
-        }
-      },
-      schema2: {
-        api1: {
-          suffix: "/smart",
-          method: "get"
-        },
-        api2: {
-          suffix: "/smart",
-          method: "post"
-        }
-      }
-    }
-  };
+```ts
+/**
+ * 基于water-service ng-crud服务封装
+ * 本服务不需要provider,使用时直接注入
+ * root
+ * tree-shaking
+ */
+import { Injectable } from "@angular/core";
+import waterService, {
+  WaterService,
+  ConfDataBase,
+  requestType,
+  responseFilters
+} from "water-service";
+import { NzNotificationService } from "ng-cosmos-ui";
+import { DATABASE } from "../config/app.database";
 
-  //注册数据库接口配置
-  waterService.provider(database);
+@Injectable({
+  providedIn: "root"
+})
+export class AppService {
+  private confDataBase: ConfDataBase;
+  readonly api = DATABASE.database;
+  constructor(private notification: NzNotificationService) {
+    this.confDataBase = DATABASE;
 
-  //设置请求超时时间
-  waterService.timeout = 6000;
+    //注册数据库接口配置
+    waterService.provider(this.confDataBase);
 
-  //注册全局数据流中间件
-  waterService.interceptors.request.use(conf => {
-    conf.headers = { access_token: Math.random() * 10000 };
-    return conf;
-  });
-  waterService.interceptors.response.use(res => {
-    res.over = 1000;
-    return res;
-  });
+    //设置请求超时时间
+    waterService.timeout = 6000;
 
-  //注入数据加工filters
-  waterService.plant.plugin([
-    function sort(res) {
-      console.log("res-filters:", res);
-      let args = res.config.filters["sort"];
-      res.data = res.data.sort((a, b) => b[args[0]] - a[args[0]]);
-      return res;
-    }
-  ]);
+    //注册全局数据流中间件
+    let token = Math.random() * 10000;
+    waterService.interceptors.request.use(conf => {
+      //设置请求header头(无需设置content-type)
+      conf.headers = { Authorization: "Bearer " + token };
+      return conf;
+    });
+  }
 
-  //数据请求
-  waterService
-    .request(
-      { schema: "schema1", api: "api1", params: { name: "test" } },
-      {
-        sort: ["sort", -1]
-      }
-    )
-    .then(
-      res => {
-        console.log("final:", res);
-      },
-      err => console.log("final-err:", err)
+  /**
+   * common
+   * main rewrite request
+   * @param type
+   * @param filters
+   */
+  request(type: requestType, filters?: responseFilters): Promise<any> {
+    return waterService
+      .request(type, filters)
+      .catch((e: any) => this.handlerError(e));
+  }
+  /**
+   * common
+   * handler error
+   * @param e
+   */
+  handlerError(e: any) {
+    this.notification.create(
+      "info",
+      "Error",
+      `status:${e.status}\nmsg:${e.msg}`
     );
-    
-    
-  //独立请求调用  
-  let conf = {
-    method: "get",
-    url: "http://5ab211b762a6ae001408c1d0.mockapi.io/ng/heroes"
-  };
-  waterService.get(conf.url).then(res => console.log("get:", res));
+  }
+
+  /**
+   * accept urlBase
+   * @param url
+   */
+  setUrlBase(url: string) {
+    this.confDataBase.baseUrl = url;
+  }
 }
-
-export default run;
-
 ```
 
+2. 配置 water-service 接口,示例:
+
+```ts
+/**
+ * water-service 接口配置
+ * config water-service database
+ * https://confluence.tendcloud.com/display/VD/water-service
+ * base end database
+ * schema
+ * table
+ * api
+ */
+export const DATABASE = {
+  baseUrl: "http://172.26.126.90:3000",
+  // baseUrl: "",
+  database: {
+    //module | table
+    user: {
+      login: {
+        prefix: "/user/login",
+        method: "post"
+      }
+    },
+    project: {
+      projectlist: {
+        prefix: "/project/list",
+        method: "get"
+      },
+      projectNew: {
+        prefix: "/project/save",
+        method: "post"
+      },
+      errorhandler: {
+        prefix: "/error/handler",
+        method: "put"
+      },
+      projectDelete: {
+        prefix: "/project/delete/:id",
+        method: "delete"
+      }
+    }
+  }
+};
+```
+
+3. 在业务模块中调用,示例:
+
+```ts
+import { Component, OnInit} from '@angular/core';
+import { AppService } from './service/app.service';
+@Component({...})
+export class DemoComponent implements OnInit{
+    //注入service
+    constructor(public appService:AppService){}
+
+      ngOnInit() {
+          //数据请求
+          this.appService
+            .request(
+              {
+                api: this.appService.api.user.login,
+                params: { name: "test" }
+              }
+            )
+            .then(
+              res => {
+                console.log("final:", res);
+              },
+              err => console.log("final-err:", err)
+            );
+      }
+}
+```
+
+- 其它独立请求调用(目前只支持 get、post 方法),示例:
+
+```ts
+import waterService from "water-service";
+
+...
+  let url = "http://5ab211b762a6ae001408c1d0.mockapi.io/ng/heroes";
+  waterService.get(url,{params:'params'}).then(res => console.log("get:", res));
+...
+```
+
+- 多实例支持,示例:
+
+```ts
+import { WaterService } from "water-service";
+
+//多实例的创建
+let otherService = WaterService.create();
+...
+```
+
+参考:[微服务使用示例](https://github.com/lamphc/ng-microservice)
