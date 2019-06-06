@@ -20,7 +20,7 @@
     "gulp": "^3.9.1",
     "gulp-gzip": "^1.4.2",
     "gulp-tar": "^2.1.0",
-    "parcel-bundler": "^1.7.0",
+    "parcel-bundler": "^1.12.3",
     "tslint": "^5.12.1",
     "typescript": "^2.8.1"
   },
